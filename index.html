@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>💕❤💣</title>
+    <script>
+        function showAll() {
+            let jackpob = document.getElementsByName("fname");
+            let textDumper = document.getElementsByName("textDump");
+            let htmlDumper = document.getElementsByName("htmlDump");
+            var trackDivArr = document.getElementsByClassName("tracklist-name ellipsis-one-line");
+            var artistDivArr = document.getElementsByClassName("tracklist-row__artist-name-link");
+            if (artistDivArr && trackDivArr && textDumper) {
+                textDumper.innerText += jackpob.innerText + '/n';
+                for (var i = 0; i < trackDivArr.length - 1; i++) {
+                    var retString = trackDivArr[i].innerText + ":" + artistDivArr[i].innerText;
+                    textDumper.innerText += retString;
+                    console.log(i + ": " + retString);
+                };
+            }
+
+            if (jackpob[0].value) {
+                fetch(jackpob[0].value).then(function (response) {
+                    // The API call was successful!
+                    return response.text();
+                }).then(function (html) {
+                    // This is the HTML from our response as a text string
+                    console.log(html);
+                    // Convert the HTML string into a document object
+                    var parser = new DOMParser();
+                    var doc = parser.parseFromString(html, 'text/html');
+                    if (htmlDumper) {
+                        htmlDumper.document = doc;
+                    }
+
+                }).catch(function (err) {
+                    // There was an error
+                    console.warn('Something went wrong.', err);
+                });
+            }
+
+
+
+        }
+    </script>
+</head>
+
+<body>
+
+    <h1>Playlist exporter</h1>
+    <p>spotify</p>
+
+    <label for="fname">URL:</label>
+    <input type="text" id="fname" name="fname"><br><br>
+    <button onclick="showAll()">take it</button>
+    <div class="{width:100%, height:100%}">
+        <textarea name="textDump"></textarea>
+        <div name="htmlDump"></div>
+    </div>
+</body>
+
+</html>
